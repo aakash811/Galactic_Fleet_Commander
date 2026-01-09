@@ -72,13 +72,13 @@ export default function LaunchCard({
             className={`
               h-40 w-40 object-cover
               transition-opacity duration-300
-              ${running ? "opacity-100" : "opacity-10 group-hover:opacity-100"}
+              ${running ? "opacity-100" : "opacity-20 group-hover:opacity-70"}
             `}
           />
         )}
 
         <div className="absolute left-4 top-4 z-10">
-          <h3 className="text-xl font-semibold tracking-tight">
+          <h3 className="text-xl font-semibold tracking-tight text-foreground">
             {launch.name}
           </h3>
           <p className="text-xs uppercase tracking-wider text-muted-foreground">

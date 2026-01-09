@@ -19,12 +19,16 @@ export default function LaunchBoard({ launches }: { launches: Launch[] }) {
       ...prev,
     ])
   }
-
+  
   const launchAll = () => {
+    const width = window.innerWidth
+
+    const scale = Math.min(Math.max(width / 1200, 0.7), 1.4)
+
     confetti({
-      particleCount: 300,
-      spread: 120,
-      origin: { y: 0.75 },
+        particleCount: Math.floor(400 * scale),
+        spread: Math.floor(300 * scale),
+        origin: { y: 0.75 },
     })
 
     addLog("🚀 We are going to Mars.")
@@ -32,19 +36,23 @@ export default function LaunchBoard({ launches }: { launches: Launch[] }) {
 
   return (
     <div className="h-screen flex flex-col">
-      <header className="flex items-center justify-between px-8 py-4 border-b">
-        <h1 className="text-xl font-bold">Galactic Fleet Commander</h1>
+        <header className="flex flex-col gap-4 px-6 py-4 border-b sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="text-lg sm:text-xl font-bold">
+                Galactic Fleet Commander
+            </h1>
 
-        <div className="flex items-center gap-3">
-          <Button
-            variant="outline"
-            onClick={() => setIsLogOpen((prev) => !prev)}
-          >
-            {isLogOpen ? "Hide Logs" : "Show Logs"}
-          </Button>
-          <ThemeToggle />
-        </div>
-      </header>
+            <div className="flex items-center gap-2 sm:gap-3">
+                <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsLogOpen((prev) => !prev)}
+                >
+                {isLogOpen ? "Hide Logs" : "Show Logs"}
+                </Button>
+                <ThemeToggle />
+            </div>
+        </header>
+
 
       <div className="flex flex-1 overflow-hidden">
         <main className="flex-1 overflow-y-auto">
@@ -64,12 +72,29 @@ export default function LaunchBoard({ launches }: { launches: Launch[] }) {
         </main>
 
         <motion.aside
-          animate={{ width: isLogOpen ? 300 : 0 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className="border-l overflow-hidden"
+            animate={{
+                width: isLogOpen ? 300 : 0,
+                x: isLogOpen ? 0 : 300,
+            }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="
+                fixed right-0 top-0 z-40 h-full
+                bg-background border-l
+                overflow-hidden
+                md:static md:translate-x-0
+            "
         >
-          {isLogOpen && <LogConsole logs={logs} onClear={() => setLogs([])} />}
+        {isLogOpen && ( 
+            <LogConsole logs={logs} onClear={() => setLogs([])} /> 
+        )}
+        {isLogOpen && (
+        <div
+            className="fixed inset-0 bg-black/20 md:hidden"
+            onClick={() => setIsLogOpen(false)}
+        />
+        )}
         </motion.aside>
+        
       </div>
     </div>
   )
