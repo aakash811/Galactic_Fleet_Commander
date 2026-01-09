@@ -34,7 +34,6 @@ export default function LogConsole({
         </Button>
       </div>
 
-      {/* Logs */}
       <ScrollArea className="flex-1 pr-2">
         {logs.length === 0 ? (
           <p className="text-xs text-muted-foreground">

@@ -54,7 +54,7 @@ export default function LaunchBoard({ launches }: { launches: Launch[] }) {
         </header>
 
 
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1">
         <main className="flex-1 overflow-y-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-8 py-6">
             {launches.map((launch) => (

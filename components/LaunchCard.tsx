@@ -61,18 +61,32 @@ export default function LaunchCard({
 
   return (
     <Card
-      className={`group w-auto overflow-hidden rounded-xl border shadow-sm transition-all duration-300 ${running ? "ring-2 ring-primary/50 scale-[1.02]" : "hover:shadow-lg"}
+      className={`
+        group w-auto rounded-xl border
+        bg-background
+        drop-shadow-lg
+        transition-all duration-300
+        ${
+          running
+            ? "ring-2 ring-primary/50 scale-[1.03] drop-shadow-2xl"
+            : "hover:scale-[1.03] hover:drop-shadow-2xl"
+        }
       `}
     >
-      <div className="relative h-56 bg-muted flex items-center justify-center">
+      <div className="relative h-56 bg-linear-to-b from-muted/60 to-muted flex items-center justify-center overaflow-hidden rounded-t-xl">
         {launch.links?.patch?.small && (
           <img
             src={launch.links.patch.small}
             alt={`${launch.name} mission patch`}
             className={`
-              h-40 w-40 object-cover
-              transition-opacity duration-300
-              ${running ? "opacity-100" : "opacity-20 group-hover:opacity-70"}
+              h-40 w-40 object-contain
+              transition-all duration-300 ease-out
+              origin-center
+              ${
+                running
+                  ? "scale-150 rotate-12"
+                  : "group-hover:scale-160 group-hover:rotate-6"
+              }
             `}
           />
         )}
