@@ -40,11 +40,11 @@ function getLogTypeStyles(type: LogEntry["type"]): string {
 }
 
 export function LogConsole({ logs, onClear, isOpen, onClose }: LogConsoleProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollAnchorRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    if (scrollAnchorRef.current) {
+      scrollAnchorRef.current?.scrollIntoView({ behavior: "smooth" })
     }
   }, [logs])
 
@@ -58,6 +58,7 @@ export function LogConsole({ logs, onClear, isOpen, onClose }: LogConsoleProps) 
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className="fixed right-0 top-0 h-full w-full sm:w-96 bg-card border-l border-border shadow-2xl z-50 flex flex-col"
         >
+          {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/50">
             <div className="flex items-center gap-2">
               <Terminal className="h-5 w-5 text-primary" />
@@ -74,32 +75,37 @@ export function LogConsole({ logs, onClear, isOpen, onClose }: LogConsoleProps) 
             </div>
           </div>
 
-          <ScrollArea className="flex-1" ref={scrollRef}>
-            <div className="p-4 space-y-1 font-mono text-xs">
-              <AnimatePresence initial={false}>
-                {logs.length === 0 ? (
-                  <div className="text-muted-foreground text-center py-8">
-                    No logs yet. Initialize a launch to see activity.
-                  </div>
-                ) : (
-                  logs.map((log) => (
-                    <motion.div
-                      key={log.id}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                      className="flex gap-2 py-1 hover:bg-muted/50 px-2 -mx-2 rounded"
-                    >
-                      <span className="text-muted-foreground flex-shrink-0">[{formatTime(log.timestamp)}]</span>
-                      <span className={cn(getLogTypeStyles(log.type))}>{log.message}</span>
-                    </motion.div>
-                  ))
-                )}
-              </AnimatePresence>
-            </div>
-          </ScrollArea>
+          {/* Log entries */}
+          <div className="flex-1 overflow-hidden">
+            <ScrollArea className="h-full">   
+              <div className="p-4 space-y-1 font-mono text-xs">
+                <AnimatePresence initial={false}>
+                  {logs.length === 0 ? (
+                    <div className="text-muted-foreground text-center py-8">
+                      No logs yet. Initialize a launch to see activity.
+                    </div>
+                  ) : (
+                    logs.map((log) => (
+                      <motion.div
+                        key={log.id}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="flex gap-2 py-1 hover:bg-muted/50 px-2 -mx-2 rounded"
+                      >
+                        <span className="text-muted-foreground flex-shrink-0">[{formatTime(log.timestamp)}]</span>
+                        <span className={cn(getLogTypeStyles(log.type))}>{log.message}</span>
+                      </motion.div>
+                    ))
+                  )}
+                </AnimatePresence>
+                <div ref={scrollAnchorRef} />
+              </div>
+            </ScrollArea>
+          </div>
 
+          {/* Footer */}
           <div className="px-4 py-2 border-t border-border bg-muted/30">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse" />
