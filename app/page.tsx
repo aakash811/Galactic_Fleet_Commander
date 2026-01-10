@@ -1,7 +1,7 @@
-import { getLaunches } from "@/lib/spacex"
-import LaunchBoard from "@/components/LaunchBoard"
+import { fetchUpcomingLaunches } from "@/lib/spacex"
+import {LaunchBoard} from "@/components/LaunchBoard"
 
 export default async function Home() {
-  const launches = await getLaunches()
-  return <LaunchBoard launches={launches} />
+  const launches = await fetchUpcomingLaunches()
+  return <LaunchBoard initialLaunches={launches} />
 }
