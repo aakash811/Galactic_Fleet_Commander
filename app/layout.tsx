@@ -17,7 +17,6 @@ export const metadata: Metadata = {
   title: "Galactic Fleet Commander | Mission Control",
   description: "Track and manage upcoming SpaceX launches with real-time mission control dashboard",
   keywords: ["spacex", "launches", "mission control", "rockets", "space"],
-    generator: 'v0.app'
 }
 
 export const viewport: Viewport = {
