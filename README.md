@@ -100,6 +100,6 @@ This application is a **client-side interactive dashboard**.
 ### Installation
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/aakash811/Galactic_Fleet_Commander.git
 cd galactic-fleet-commander
 npm install
